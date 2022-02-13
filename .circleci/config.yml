@@ -20,7 +20,7 @@ jobs:
           command: "docker build -t mockzor ."
       - run:
           name: "Dockerhub authentication"
-          command: "echo "$DH_TOKEN" | docker login --username="$DH_USERNAME" --password-stdin"
+          command: "echo $DH_TOKEN | docker login --username=$DH_USERNAME --password-stdin"
       - run:
           name: "Pushing image to Dockerhub"
           command: "docker push spideyz0r/mockzor:latest"
