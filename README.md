@@ -3,5 +3,3 @@
 
 Place a PR to update the DockerHub image spideyz0r/mockzor used by https://github.com/spideyz0r/rpmbuilder.
 
-## TODO
-Only push the image after merged
