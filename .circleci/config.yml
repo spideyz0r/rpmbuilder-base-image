@@ -1,5 +1,4 @@
 version: 2.1
-
 jobs:
   build:
     machine:
@@ -18,13 +17,7 @@ jobs:
       - run:
           name: "Building image with docker-compose"
           command: "docker build -t spideyz0r/mockzor ."
-      - run:
-          name: "Dockerhub authentication"
-          command: "echo $DH_TOKEN | docker login --username=$DH_USERNAME --password-stdin"
   deploy:
-    filters:
-      branches:
-        only: /^main$/
     machine:
       image: ubuntu-2004:202010-01
     resource_class: medium
@@ -47,10 +40,10 @@ jobs:
       - run:
           name: "Pushing image to Dockerhub"
           command: "docker push spideyz0r/mockzor:latest"
+  
 workflows:
   rpmbuilder-workflow:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
+      - deploy
+
