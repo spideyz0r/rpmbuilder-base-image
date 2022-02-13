@@ -19,11 +19,11 @@ jobs:
           name: "Building image with docker-compose"
           command: "docker build -t mockzor ."
       - run:
+          name: "Dockerhub authentication"
+          command: "echo "$DH_TOKEN" | docker login --username="$DH_USERNAME" --password-stdin"
+      - run:
           name: "Pushing image to Dockerhub"
-          command: |
-          username: mydockerhub-user
-          passwd: $DOCKERHUB_PASSWORD
-
+          command: "docker push spideyz0r/mockzor:latest"
 workflows:
   rpmbuilder-workflow:
     jobs:
