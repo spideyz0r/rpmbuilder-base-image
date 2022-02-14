@@ -1,40 +1,41 @@
 version: 2.1
 
+commands:
+  docker-steps:
+    parameters:
+      docker-build-deps:
+        description: "Composer install and image build"
+        type: steps
+        default: []
+    steps:
+      - checkout
+      - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: "Building image with docker-compose"
+          command: "docker build -t spideyz0r/mockzor ."
+
 jobs:
   build:
     machine:
       image: ubuntu-2004:202010-01
     resource_class: medium
     steps:
-      - checkout
-      - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.29.2'
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run:
-          name: "Building image with docker-compose"
-          command: "docker build -t spideyz0r/mockzor ."
+      - docker-steps:
+          docker-build-deps:
   deploy:
     machine:
       image: ubuntu-2004:202010-01
     resource_class: medium
     steps:
-      - checkout
-      - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: '1.29.2'
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - run:
-          name: "Building image with docker-compose"
-          command: "docker build -t spideyz0r/mockzor ."
+      - docker-steps:
+          docker-build-deps:
       - run:
           name: "Dockerhub authentication"
           command: "echo $DH_TOKEN | docker login --username=$DH_USERNAME --password-stdin"
@@ -46,6 +47,9 @@ workflows:
   rpmbuilder-workflow:
     jobs:
       - build
+          filters:
+            branches:
+              ignore: /^main$/
       - deploy:
           requires:
             - build
