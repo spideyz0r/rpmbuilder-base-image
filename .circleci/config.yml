@@ -24,12 +24,12 @@ jobs:
   deploy:
     docker:
       - image: docker:17.05.0-ce-git
+        auth:
+          username: $DH_USERNAME
+          password: $DH_TOKEN
     steps:
       - docker-steps:
           docker-build-deps:
-      - run:
-          name: "Dockerhub authentication"
-          command: "echo $DH_TOKEN | docker login --username=$DH_USERNAME --password-stdin"
       - run:
           name: "Pushing image to Dockerhub"
           command: "docker push spideyz0r/mockzor:latest"
