@@ -35,7 +35,9 @@ jobs:
           command: "docker login"
       - run:
           name: "Pushing image to Dockerhub"
-          command: "docker push spideyz0r/mockzor:latest"
+          command: |
+            echo $DH_TOKEN | docker login -u $DH_USERNAME --password-stdin
+            docker push spideyz0r/mockzor:latest
 
 workflows:
   rpmbuilder-workflow:
