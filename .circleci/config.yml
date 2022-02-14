@@ -17,13 +17,13 @@ commands:
 jobs:
   build:
     docker:
-      image: docker:17.05.0-ce-git
+      - image: docker:17.05.0-ce-git
     steps:
       - docker-steps:
           docker-build-deps:
   deploy:
     docker:
-      image: docker:17.05.0-ce-git
+      - image: docker:17.05.0-ce-git
     steps:
       - docker-steps:
           docker-build-deps:
