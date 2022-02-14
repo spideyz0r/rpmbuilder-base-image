@@ -31,6 +31,9 @@ jobs:
       - docker-steps:
           docker-build-deps:
       - run:
+          name: "Dockerhub login"
+          command: "docker login"
+      - run:
           name: "Pushing image to Dockerhub"
           command: "docker push spideyz0r/mockzor:latest"
 
