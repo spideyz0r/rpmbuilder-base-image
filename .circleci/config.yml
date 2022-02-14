@@ -14,19 +14,19 @@ commands:
           name: "Building image"
           command: "docker build -t spideyz0r/mockzor ."
 
-jobs:
-  build:
+executors:
+  docker-executor:
     docker:
       - image: docker:17.05.0-ce-git
+
+jobs:
+  build:
+    executor: docker-executor
     steps:
       - docker-steps:
           docker-build-deps:
   deploy:
-    docker:
-      - image: docker:17.05.0-ce-git
-        auth:
-          username: $DH_USERNAME
-          password: $DH_TOKEN
+    executor: docker-executor
     steps:
       - docker-steps:
           docker-build-deps:
