@@ -4,13 +4,13 @@ commands:
   docker-steps:
     parameters:
       docker-build-deps:
-        description: "Composer install and image build"
+        description: "Image build"
         type: steps
         default: []
     steps:
       - checkout
       - run:
-          name: "Building image with docker-compose"
+          name: "Building image"
           command: "docker build -t spideyz0r/mockzor ."
 
 jobs:
