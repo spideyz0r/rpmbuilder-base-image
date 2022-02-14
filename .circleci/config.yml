@@ -46,7 +46,7 @@ jobs:
 workflows:
   rpmbuilder-workflow:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               ignore: /^main$/
