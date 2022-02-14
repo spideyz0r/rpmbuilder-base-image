@@ -33,7 +33,7 @@ jobs:
       - run:
           name: "Pushing image to Dockerhub"
           command: |
-            echo $DH_TOKEN | docker login -u $DH_USERNAME --password-stdin
+            aws ecr get-login
             docker push spideyz0r/mockzor:latest
 
 workflows:
