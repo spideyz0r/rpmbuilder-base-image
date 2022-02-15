@@ -1,30 +1,15 @@
 version: 2.1
 
-commands:
-  docker-steps:
-    parameters:
-      docker-build-deps:
-        description: "Image build"
-        type: steps
-        default: []
+jobs:
+  build:
+    docker:
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: "Building image"
           command: "docker build -t spideyz0r/mockzor ."
-
-executors:
-  docker-executor:
-    docker:
-      - image: docker:17.05.0-ce-git
-
-jobs:
-  build:
-    executor: docker-executor
-    steps:
-      - docker-steps:
-          docker-build-deps:
   deploy:
     steps:
       - run:
@@ -36,10 +21,8 @@ jobs:
 workflows:
   rpmbuilder-workflow:
     jobs:
-      - build:
+      - build
       - deploy:
           filters:
             branches:
               only: /^main$/
-
-
