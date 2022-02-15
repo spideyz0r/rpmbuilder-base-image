@@ -26,10 +26,7 @@ jobs:
       - docker-steps:
           docker-build-deps:
   deploy:
-    executor: docker-executor
     steps:
-      - docker-steps:
-          docker-build-deps:
       - run:
           name: "Pushing image to Dockerhub"
           command: |
@@ -40,9 +37,6 @@ workflows:
   rpmbuilder-workflow:
     jobs:
       - build:
-          filters:
-            branches:
-              ignore: /^main$/
       - deploy:
           filters:
             branches:
