@@ -21,7 +21,7 @@ jobs:
 workflows:
   rpmbuilder-workflow:
     jobs:
-      - build
+      - build:
       - deploy:
           filters:
             branches:
